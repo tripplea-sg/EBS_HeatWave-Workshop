@@ -29,6 +29,8 @@ Click **Add Ingress Rules**
 Click **Add Ingress Rules**
 * Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 1521, Description: Oracle port <br>
 Click **Add Ingress Rules**
+* Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 80,443,8501, Description: others <br>
+Click **Add Ingress Rules**
 
 ### Create MySQL HeatWave 
 
@@ -103,12 +105,42 @@ s3fs EBS_workshop /home/opc/object_storage -o endpoint={region} -o passwd_file=$
 ```
 ### Install vncserver
 ```
+sudo setenforce 0
+sudo systemctl stop firewalld
 sudo dnf groupinstall "Server with GUI" -y
 sudo dnf install tigervnc-server -y
 vncpasswd
 sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
 vncserver :1
 ```
+### Configure E-Business Suite
+```
+sudo hostnamectl set-hostname apps.example.com
+```
+Add "apps.example.com db.example.com apps" at the back of a line with IP address in /etc/hosts <br>
+Start EBS database:
+```
+cd /u01/install/APPS
+. EBSapps.env
+/u01/install/APPS/script/startdb.sh
+```
+Fix context file
+```
+vi /u01/install/APPS/fs1/inst/apps/EBSDB_apps/appl/admin/EBSDB_apps.xml
+s_webentryhost value = apps
+s_webentrydomain value = example.com
+login_page value = http://apps.example.com:8000/OA_HTML/AppsLogin
+```
+Run Autoconfig
+```
+/u01/install/APPS/fs1/inst/apps/EBSDB_apps/admin/scripts/adautocfg.sh
+```
+Start EBS apps
+```
+/u01/install/APPS/scripts/startapps.sh
+```
+
+
 
 
 
