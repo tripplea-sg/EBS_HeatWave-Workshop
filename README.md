@@ -48,6 +48,12 @@ Provisioning HeatWave Nodes: After setting up the DB System, this document expla
 * Initial data storage: 50GB
 * Disable backup plan
 
+### Create Object Storage Bucket
+
+To create an Object Storage bucket in Oracle Cloud Infrastructure (OCI), you can follow the official documentation provided by Oracle. [Oracle Documentation](https://docs.oracle.com/iaas/Content/Object/Tasks/managingbuckets_topic-To_create_a_bucket.htm?utm_source=chatgpt.com)
+
+Object Storage Bucket name: EBS_workshop
+
 ### Create Compute Node Running EBS Vision Instance
 
 Creating a Compute Instance: [Oracle Docs](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/compute/compute-instances.htm?utm_source=chatgpt.com)
@@ -56,6 +62,31 @@ Creating a Compute Instance: [Oracle Docs](https://docs.oracle.com/en-us/iaas/co
 * Shape: 8 OCPU, 128 GB RAM
 * VCN: EBS_workshop
 * Subnet: public subnet-EBS_workshop
+
+## Configure Compute Node
+
+### Install S3FS
+Login to the Compute node and install:
+```
+sudo dnf install -y epel-release
+sudo dnf update -y
+sudo dnf install -y gcc libstdc++-devel fuse-devel curl-devel libxml2-devel mailcap automake autoconf
+sudo dnf install -y git
+git clone https://github.com/s3fs-fuse/s3fs-fuse.git
+cd s3fs-fuse
+./autogen.sh
+./configure
+make
+sudo make install
+s3fs --version
+```
+
+
+
+
+
+
+
 
 
 
