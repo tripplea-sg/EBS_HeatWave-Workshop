@@ -58,7 +58,7 @@ Object Storage Bucket name: EBS_workshop
 
 Creating a Compute Instance: [Oracle Docs](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/compute/compute-instances.htm?utm_source=chatgpt.com)
 * Name: EBS_workshop
-* Change Image: marketplace, E-Business Suite Demo Install Image
+* Change Image: marketplace, E-Business Suite Demo Install Image ver 12.2.14
 * Shape: 8 OCPU, 128 GB RAM
 * VCN: EBS_workshop
 * Boot disk size: 800GB
@@ -87,18 +87,29 @@ ACCESS_KEY_ID:SECRET_ACCESS_KEY
 Secure the file and mount object storage bucket
 ```
 chmod 400 ~/.passwd-s3fs
-
-# resize block volume to 800G from OCI console
+```
+Resize block volume to 800G from OCI console 
+```
 sudo dnf install -y cloud-utils-growpart
 sudo growpart /dev/sda 3
 sudo pvresize /dev/sda3
 sudo lvextend -l +100%FREE /dev/mapper/ocivolume-root
 sudo xfs_growfs /
 df -h
-
-# mount
+```
+mount object storage
+```
 s3fs EBS_workshop /home/opc/object_storage -o endpoint={region} -o passwd_file=${HOME}/.passwd-s3fs -o url=https://{namespace}.compat.objectstorage.{region}.oraclecloud.com/ -onomultipart -o use_path_request_style
 ```
+### Install vncserver
+```
+sudo dnf groupinstall "Server with GUI" -y
+sudo dnf install tigervnc-server -y
+vncpasswd
+sudo cp /lib/systemd/system/vncserver@.service /etc/systemd/system/vncserver@:1.service
+vncserver :1
+```
+
 
 
 
