@@ -30,6 +30,24 @@ Click **Add Ingress Rules**
 * Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 1521, Description: Oracle port <br>
 Click **Add Ingress Rules**
 
+### Create MySQL HeatWave 
+
+Provisioning MySQL HeatWave: This guide outlines the steps to create a MySQL HeatWave DB System and enable the HeatWave cluster. It covers prerequisites, including setting up a Virtual Cloud Network (VCN) and configuring networking between OCI and Azure. 
+[Oracle Docs](https://docs.oracle.com/en-us/iaas/odsaz/odsa-provisioning-mysql-heatwave.html?utm_source=chatgpt.com)
+
+Provisioning HeatWave Nodes: After setting up the DB System, this document explains how to add and manage HeatWave nodes, including resizing the cluster and utilizing MySQL HeatWave Autopilot for node estimation. 
+[Oracle Docs](https://docs.oracle.com/en-us/iaas/Content/database-for-azure-provision/odsa-provisioning-heatwave-nodes.html?utm_source=chatgpt.com)
+
+* Name: EBS_workshop
+* Username: admin
+* Password: <you define>
+* Setup: standalone
+* VCN: EBS_workshop
+* Subnet: private subnet-EBS_workshop
+* Shape: MySQL.4 + HeatWave.512GB (make sure Lakehouse is enabled)
+* Initial data storage: 50GB
+* Disable backup plan
+
 
 
 
