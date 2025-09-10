@@ -48,7 +48,14 @@ Provisioning HeatWave Nodes: After setting up the DB System, this document expla
 * Initial data storage: 50GB
 * Disable backup plan
 
+### Create Compute Node Running EBS Vision Instance
 
+Creating a Compute Instance: [Oracle Docs](https://docs.oracle.com/en-us/iaas/compute-cloud-at-customer/topics/compute/compute-instances.htm?utm_source=chatgpt.com)
+* Name: EBS_workshop
+* Change Image: marketplace, E-Business Suite Demo Install Image
+* Shape: 8 OCPU, 128 GB RAM
+* VCN: EBS_workshop
+* Subnet: public subnet-EBS_workshop
 
 
 
