@@ -1,0 +1,42 @@
+# MySQL HeatWave integration with EBS
+
+This GitHub repository explains and demonstrates how to set up a simple environment that showcases the integration between Oracle E-Business Suite (EBS) and 
+MySQL HeatWave through the Lakehouse architecture. It provides step-by-step guidance, examples, and configurations to help users understand how data can seamlessly flow from EBS into HeatWave, enabling advanced analytics, 
+reporting, and insights without complex ETL processes. The goal is to make it easier to learn and replicate the integration in a controlled, simplified setup.
+
+## Create OCI environment
+
+### Create Virtual Cloud Network (VCN)
+
+Launch the OCI Console, go to Networking → Virtual Cloud Networks, and use the VCN with Internet Connectivity wizard. 
+[Oracle Docs](https://docs.oracle.com/en/learn/lab_virtual_network/index.html?utm_source=chatgpt.com)
+
+Provides sample values for fields like “VCN Name” and IPv4 CIDR blocks, complete with visual guidance and review steps.
+[Oracle Docs](https://docs.oracle.com/en/learn/lab_virtual_network/index.html?utm_source=chatgpt.com)
+
+**VCN Name** = EBS_workshop<br>
+Click **Next**, click **Create.**, and Click **View VCN** <br><br>
+Go to **Subnet** , click on **private subnet-EBS_workshop**, click **security**, click **security list for private subnet-EBS_workshop**, and click **Security Rules** <br>
+* Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 3306, 33060, Description: mysql/mysqlx ports <br>
+Click **Add Ingress Rules** <br><br>
+
+Go back to **EBS_workshop** , click on **Subnets**, click **public subnet-EBS_workshop**, click **security**, click **Default security for EBS_workshop**, and click **Security Rules** <br>
+* Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 3306, 33060, Description: mysql/mysqlx ports <br>
+Click **Add Ingress Rules**
+* Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 5901, Description: vnc server ports <br>
+Click **Add Ingress Rules**
+* Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 8000,9000, Description: EBS ports <br>
+Click **Add Ingress Rules**
+* Click **Add Ingress Rules**, and: Source CIDR: 0.0.0.0/0, Source port range: All, Destination port range: 1521, Description: Oracle port <br>
+Click **Add Ingress Rules**
+
+
+
+
+
+
+
+
+
+
+
