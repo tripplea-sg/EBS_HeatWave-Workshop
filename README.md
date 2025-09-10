@@ -61,6 +61,7 @@ Creating a Compute Instance: [Oracle Docs](https://docs.oracle.com/en-us/iaas/co
 * Change Image: marketplace, E-Business Suite Demo Install Image
 * Shape: 8 OCPU, 128 GB RAM
 * VCN: EBS_workshop
+* Boot disk size: 800GB
 * Subnet: public subnet-EBS_workshop
 
 ## Configure Compute Node
@@ -71,17 +72,33 @@ Login to the Compute node and install:
 sudo dnf install -y epel-release
 sudo dnf update -y
 sudo dnf install -y gcc libstdc++-devel fuse-devel curl-devel libxml2-devel mailcap automake autoconf
-sudo dnf install -y git
-git clone https://github.com/s3fs-fuse/s3fs-fuse.git
-cd s3fs-fuse
-./autogen.sh
-./configure
-make
-sudo make install
+sudo yum-config-manager --enable ol8_baseos_latest ol8_appstream ol8_addons ol8_developer_EPEL
+sudo yum install s3fs-fuse
 s3fs --version
+sudo setenforce 0
+sudo systemctl stop firewalld
+mkdir -p /home/opc/object_storage
 ```
+Create a credentials file (~/.passwd-s3fs) with this format. To create an API Signing Key in Oracle Cloud Infrastructure (OCI), you can follow the official documentation provided by Oracle. This process involves generating a key pair (private and public keys) that allows secure authentication for API requests. Generating an API Signing Key: 
+[Oracle Documentation](https://docs.oracle.com/en-us/iaas/Content/API/Concepts/apisigningkey.htm?utm_source=chatgpt.com)
+```
+ACCESS_KEY_ID:SECRET_ACCESS_KEY
+```
+Secure the file and mount object storage bucket
+```
+chmod 400 ~/.passwd-s3fs
 
+# resize block volume to 800G from OCI console
+sudo dnf install -y cloud-utils-growpart
+sudo growpart /dev/sda 3
+sudo pvresize /dev/sda3
+sudo lvextend -l +100%FREE /dev/mapper/ocivolume-root
+sudo xfs_growfs /
+df -h
 
+# mount
+s3fs EBS_workshop /home/opc/object_storage -o endpoint={region} -o passwd_file=${HOME}/.passwd-s3fs -o url=https://{namespace}.compat.objectstorage.{region}.oraclecloud.com/ -onomultipart -o use_path_request_style
+```
 
 
 
